@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 class Conversation {
@@ -18,7 +19,91 @@ class Conversation {
     scan.nextLine(); //Get the newline after the number input
 
     //Start the conversation
-    
+    System.out.println("Hi there! What's on your mind?");
 
+    //Initialize an array to store the conversation transcript
+    String[] transcript = new String[rounds * 2]; 
+    int transcriptIndex = 0;
+  
+    //Canned respoinses for non-mirrored input
+    String [] cannedResponses = 
+    {
+      "Mmm-hm.", "Interesting.", "Can you say more about that?", "Oh, really?"
+    };
+    Random random = new Random();
+
+    //Loop through the number of rounds
+    for (int i = 0; i < rounds; i++)
+    {
+      //Get user inpt
+      System.out.println("> ");
+      String userInput = scan.nextLine();
+      transcript[transcriptIndex++] = userInput; //Save user input to transcript
+
+      //Check if words can be mirrored
+      String botResponse = mirrorWords(userInput);
+      if (botResponse.equals(userInput))
+      {
+        //if no mirroring was done, give a random canned response
+        botResponse = cannedResponses[random.nextInt(cannedResponses.length)];
+      }
+
+      //Pitput the bot's response
+      System.out.println(botResponse);
+      transcript[transcriptIndex++] = botResponse; //Save the bot response to the transcript
+    }
+
+    //End the conversation
+    System.out.println("See ya!");
+
+    //Print the transcript
+    System.out.println("\nTRANSCRIPT:");
+    for (String line : transcript)
+    {
+      System.out.println(line);
+    }
+    }
+
+    /**
+     * This method takes a string input and mirrors specific words based on predefined rules.
+     * It replaces words such as "I" with "you", "am" with "are", and so on, to create a 
+     * mirrored conversation effect.
+     * @param input The user's input string that may contian mirrorable words.
+     * @return A mirrored version of the input string, or the original input if no mirroring is done.
+     */
+    public static String mirrorWords(String input) {
+      
+      // Store mirrorable words and their replacements
+      String[][] wordPairs = {
+        {"I", "you"}, {"me", "you"}, {"am", "are"}, {"you", "I"}, {"my", "your"}, {"your", "my"}, {"I'm", "you're"}
+      };
+  
+      // Split the input into words
+      String[] words = input.split(" ");
+      boolean hasMirrorWord = false;
+      
+      // Perform word mirroring
+      for (int i = 0; i < words.length; i++) {
+        for (String[] pair : wordPairs)
+        {
+          if (words[i].equalsIgnoreCase(pair[0]))
+          {
+            words[i] = pair[1];
+            hasMirrorWord = true;
+            break;
+          }
+        }
+      }
+      
+      //Reconstruct the sentence after word mirroring
+      String mirrored = String.join(" ", words);
+      // Mirror punctuation only if there was a mirrorable word
+      if (hasMirrorWord) {
+        mirrored = mirrored.replace("!", "?");
+        mirrored = mirrored.replace(".", "?");
+      }
+  
+      //Punctiation replacements
+      return mirrored;
+    }
   }
-}
