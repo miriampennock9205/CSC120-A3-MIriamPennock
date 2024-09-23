@@ -18,12 +18,17 @@ class Conversation {
     int rounds = scan.nextInt();
     scan.nextLine(); //Get the newline after the number input
 
-    //Start the conversation
-    System.out.println("Hi there! What's on your mind?");
+  
 
     //Initialize an array to store the conversation transcript
-    String[] transcript = new String[rounds * 2]; 
+    String[] transcript = new String[(rounds + 1) * 2]; //plus 2 for greeting and goodbye
     int transcriptIndex = 0;
+
+    //Start the conversation
+    
+    String greeting = "Hi there! What's on your mind?";
+    System.out.println(greeting);
+    transcript[transcriptIndex++] = greeting;
   
     //Canned respoinses for non-mirrored input
     String [] cannedResponses = 
@@ -53,8 +58,11 @@ class Conversation {
       transcript[transcriptIndex++] = botResponse; //Save the bot response to the transcript
     }
 
+
     //End the conversation
-    System.out.println("See ya!");
+    String goodbyeMessage = "See ya!";
+    System.out.println(goodbyeMessage);
+    transcript[transcriptIndex++] = goodbyeMessage;
 
     //Print the transcript
     System.out.println("\nTRANSCRIPT:");
@@ -80,6 +88,15 @@ class Conversation {
   
       // Split the input into words
       String[] words = input.split(" ");
+      String[] punctuations = new String[words.length];
+      for (int i = 0; i < words.length; i++) {
+        if (words[i].matches(".*[!?.]$")) {
+            punctuations[i] = words[i].substring(words[i].length() - 1);
+            words[i] = words[i].substring(0, words[i].length() - 1);
+        } else {
+            punctuations[i] = "";
+        }
+    }
       boolean hasMirrorWord = false;
       
       // Perform word mirroring
@@ -96,13 +113,23 @@ class Conversation {
       }
       
       //Reconstruct the sentence after word mirroring
-      String mirrored = String.join(" ", words);
-      // Mirror punctuation only if there was a mirrorable word
-      if (hasMirrorWord) {
-        mirrored = mirrored.replace("!", "?");
-        mirrored = mirrored.replace(".", "?");
+      String mirrored = "";
+      for (int i = 0; i < words.length; i++)
+      {
+        mirrored += words[i] + punctuations[i] + " ";
       }
-  
+      mirrored = mirrored.trim();
+      // Mirror punctuation only if there was a mirrorable word
+      if (hasMirrorWord) 
+      {
+      mirrored = mirrored.replace("!", "?").replace(".", "?");
+      }
+
+      // Capitalize the first letter of the sentence
+    if (!mirrored.isEmpty()) 
+    {
+      mirrored = mirrored.substring(0, 1).toUpperCase() + mirrored.substring(1);
+    }
       //Punctiation replacements
       return mirrored;
     }
