@@ -1,6 +1,9 @@
 import java.util.Random;
 import java.util.Scanner;
-
+/**
+ * The Conversation class simulates a chatbot that mirrors specific words in user input 
+ * and responds with either a mirrored version or a canned response.
+ */
 class Conversation {
   /**
    * The main method where the conversation is started. It handles user input, processes responses, 
@@ -18,8 +21,6 @@ class Conversation {
     int rounds = scan.nextInt();
     scan.nextLine(); //Get the newline after the number input
 
-  
-
     //Initialize an array to store the conversation transcript
     String[] transcript = new String[(rounds + 1) * 2]; //plus 2 for greeting and goodbye
     int transcriptIndex = 0;
@@ -30,7 +31,7 @@ class Conversation {
     System.out.println(greeting);
     transcript[transcriptIndex++] = greeting;
   
-    //Canned respoinses for non-mirrored input
+    //Canned responses for non-mirrored input
     String [] cannedResponses = 
     {
       "Mmm-hm.", "Interesting.", "Can you say more about that?", "Oh, really?"
@@ -40,7 +41,7 @@ class Conversation {
     //Loop through the number of rounds
     for (int i = 0; i < rounds; i++)
     {
-      //Get user inpt
+      //Get user input
       System.out.println("> ");
       String userInput = scan.nextLine();
       transcript[transcriptIndex++] = userInput; //Save user input to transcript
@@ -53,7 +54,7 @@ class Conversation {
         botResponse = cannedResponses[random.nextInt(cannedResponses.length)];
       }
 
-      //Pitput the bot's response
+      //Output the bot's response
       System.out.println(botResponse);
       transcript[transcriptIndex++] = botResponse; //Save the bot response to the transcript
     }
