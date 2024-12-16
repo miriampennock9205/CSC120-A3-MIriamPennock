@@ -83,7 +83,7 @@ class Conversation {
 
         // Store mirrorable words and their replacements
         String[][] wordPairs = {
-            {"I", "you"}, {"me", "you"}, {"am", "are"}, {"you", "I"}, {"my", "your"}, {"your", "my"}, {"I'm", "you're"}, {"are", "am"}
+            {"I", "you"}, {"me", "you"}, {"am", "are"}, {"you", "I"}, {"my", "your"}, {"your", "my"}, {"are", "am"}, {"I'm", "you're"}
         };
 
         // Split the input into words
